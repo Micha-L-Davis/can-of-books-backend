@@ -15,6 +15,7 @@ Using the following template: [https://github.com/codefellows/can-of-books-backe
 
 ## Change Log
 02-28-2022 2:20pm - Setup complete.
+02-28-2022 5:15pm - Database route and data model established.
 
 ## Estimates
 
@@ -27,6 +28,16 @@ Start time: 2/28/2022 @ 1:55pm
 Finish time: 2/28/2022 @ 2:15pm
 
 Actual time needed to complete: 20 min
+
+Name of feature: #2 Model and Route
+
+Estimate of time needed to complete: 30min
+
+Start time: 2/28/2022 @ 3:55pm
+
+Finish time: 2/28/2022 @ 5:15pm
+
+Actual time needed to complete: 75min
 
 ---
 
