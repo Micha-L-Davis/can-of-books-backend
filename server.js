@@ -20,7 +20,7 @@ app.get('/test', (request, response) => {
 
 app.get('/books', async (request, response) => {
   try {
-    console.log(request);
+    // console.log(request);
     const bookQuery = {};
     if (request.query.email) {
       bookQuery.email = request.query.email;
