@@ -9,6 +9,7 @@ const Book = require('./models/book');
 
 const app = express();
 app.use(cors());
+app.use(express.json());
 
 const PORT = process.env.PORT || 3002;
 
@@ -33,6 +34,18 @@ app.get('/books', async (request, response) => {
   catch (error) {
     console.log(error.message);
     response.status(500).send(error.message);
+  }
+});
+
+app.post('/books', async (request, response) => {
+  try {
+    console.log(request);
+    const newBook = await Book.create(request.query);
+    response.send(newBook);
+  }
+  catch (error) {
+    console.error(error);
+    response.status(500).send('Error creating book');
   }
 });
 
