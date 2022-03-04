@@ -6,6 +6,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 mongoose.connect(process.env.DATABASE_URL);
 const Book = require('./models/book');
+const { response } = require('express');
 
 const app = express();
 app.use(cors());
@@ -19,7 +20,7 @@ app.get('/test', (request, response) => {
 
 });
 
-app.get('/books', async (request, response) => {
+app.get('/books', async (request, response, next) => {
   try {
     // console.log(request);
     const bookQuery = {};
@@ -32,24 +33,22 @@ app.get('/books', async (request, response) => {
     response.status(200).send(books);
   }
   catch (error) {
-    console.log(error.message);
-    response.status(500).send(error.message);
+    next(error);
   }
 });
 
-app.post('/books', async (request, response) => {
+app.post('/books', async (request, response, next) => {
   try {
     //console.log(request);
     const newBook = await Book.create(request.body);
     response.send(newBook);
   }
   catch (error) {
-    console.error(error);
-    response.status(500).send('Error creating book');
+    next(error);
   }
 });
 
-app.delete('/books/:id', async (request, response) => {
+app.delete('/books/:id', async (request, response, next) => {
   const _id = request.params.id;
   const email = request.query.email;
   try{
@@ -63,10 +62,24 @@ app.delete('/books/:id', async (request, response) => {
       response.status(200).send('Success!');
     }
   }
-  catch (error){
-    console.error(error);
-    response.status(404).send('Unable to delete book');
+  catch (error) {
+    next(error);
   }
+});
+
+app.put('/books/:id', async (request, response, next) => {
+  try {
+    let id = request.params.id;
+    let updatedBook = await Book.findByIdAndUpdate(id, request.body, {new: true, overwrite: true});
+    response.status(200).send(updatedBook);
+  }
+  catch (error) {
+    next(error);
+  }
+});
+
+app.use((error, request, response, next) => {
+  response.status(500).send(error.message);
 });
 
 app.listen(PORT, () => console.log(`listening on ${PORT}`));
